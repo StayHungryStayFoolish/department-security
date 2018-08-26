@@ -1,0 +1,31 @@
+entity JhiDepartment {
+	departmentName String
+}
+
+entity JhiPermission {
+	permissionName String
+}
+
+entity JhiResource {
+	resourceName String
+}
+
+entity JhiAuthPermRes {
+	authorityName String,
+	permissionName String,
+	resourceName String
+}
+
+relationship OneToMany {
+
+	JhiPermission{permission} to JhiAuthPermRes,
+
+	JhiResource{resources} to JhiAuthPermRes
+}
+
+paginate JhiPermission, JhiResource, JhiAuthPermRes with pagination
+
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+angularSuffix * with mySuffix

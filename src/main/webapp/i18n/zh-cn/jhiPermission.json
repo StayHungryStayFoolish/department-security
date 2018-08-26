@@ -1,0 +1,23 @@
+
+{
+    "departmentSecurityApp": {
+        "jhiPermission" : {
+            "home": {
+                "title": "Jhi Permissions",
+                "createLabel": "创建新 Jhi Permission",
+                "createOrEditLabel": "创建或编辑 Jhi Permission"
+            },
+            "created": "Jhi Permission {{ param }} 创建成功",
+            "updated": "Jhi Permission {{ param }} 更新成功",
+            "deleted": "Jhi Permission {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Jhi Permission {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Jhi Permission"
+            },
+            "permissionName": "Permission Name",
+            "permission": "Permission"
+        }
+    }
+}

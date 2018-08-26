@@ -1,0 +1,20 @@
+{
+    "name": "JhiDepartment",
+    "fields": [
+        {
+            "fieldName": "departmentName",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180825162148",
+    "entityTableName": "jhi_department",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "mySuffix"
+}

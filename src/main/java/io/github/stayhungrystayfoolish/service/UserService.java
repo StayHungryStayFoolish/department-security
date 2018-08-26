@@ -1,9 +1,11 @@
 package io.github.stayhungrystayfoolish.service;
 
 import io.github.stayhungrystayfoolish.domain.Authority;
+import io.github.stayhungrystayfoolish.domain.JhiDepartment;
 import io.github.stayhungrystayfoolish.domain.User;
 import io.github.stayhungrystayfoolish.repository.AuthorityRepository;
 import io.github.stayhungrystayfoolish.config.Constants;
+import io.github.stayhungrystayfoolish.repository.JhiDepartmentRepository;
 import io.github.stayhungrystayfoolish.repository.UserRepository;
 import io.github.stayhungrystayfoolish.security.AuthoritiesConstants;
 import io.github.stayhungrystayfoolish.security.SecurityUtils;
@@ -41,12 +43,15 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
+    private final JhiDepartmentRepository departmentRepository;
+
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, JhiDepartmentRepository departmentRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.departmentRepository = departmentRepository;
         this.cacheManager = cacheManager;
     }
 
@@ -104,9 +109,11 @@ public class UserService {
         newUser.setActivated(false);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
-        Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
-        newUser.setAuthorities(authorities);
+//        Set<Authority> authorities = new HashSet<>();
+        Set<JhiDepartment> departments = new HashSet<>();
+        JhiDepartment department = departmentRepository.findByDepartmentName(AuthoritiesConstants.DEP_USER_NAME);
+        departments.add(department);
+        newUser.setDepartments(departments);
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
@@ -125,13 +132,11 @@ public class UserService {
         } else {
             user.setLangKey(userDTO.getLangKey());
         }
-        if (userDTO.getAuthorities() != null) {
-            Set<Authority> authorities = userDTO.getAuthorities().stream()
-                .map(authorityRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        if (userDTO.getDepartments() != null) {
+            Set<JhiDepartment> authorities = userDTO.getDepartments().stream()
+                .map(departmentRepository::findByDepartmentName)
                 .collect(Collectors.toSet());
-            user.setAuthorities(authorities);
+            user.setDepartments(authorities);
         }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
@@ -187,12 +192,10 @@ public class UserService {
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
-                Set<Authority> managedAuthorities = user.getAuthorities();
+                Set<JhiDepartment> managedAuthorities = user.getDepartments();
                 managedAuthorities.clear();
-                userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
+                userDTO.getDepartments().stream()
+                    .map(departmentRepository::findByDepartmentName)
                     .forEach(managedAuthorities::add);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
@@ -231,17 +234,17 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneWithAuthoritiesByLogin(login);
+        return userRepository.findOneWithJhiDepartmentsByEmail(login);
     }
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthorities(Long id) {
-        return userRepository.findOneWithAuthoritiesById(id);
+        return userRepository.findOneWithJhiDepartmentsById(id);
     }
 
     @Transactional(readOnly = true)
     public Optional<User> getUserWithAuthorities() {
-        return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+        return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithJhiDepartmentsByLogin);
     }
 
     /**
@@ -263,7 +266,7 @@ public class UserService {
      * @return a list of all the authorities
      */
     public List<String> getAuthorities() {
-        return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+        return departmentRepository.findAll().stream().map(JhiDepartment::getDepartmentName).collect(Collectors.toList());
     }
 
     private void clearUserCaches(User user) {

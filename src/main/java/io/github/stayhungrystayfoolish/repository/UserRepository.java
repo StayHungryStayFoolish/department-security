@@ -32,16 +32,26 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByLogin(String login);
 
-    @EntityGraph(attributePaths = "authorities")
-    Optional<User> findOneWithAuthoritiesById(Long id);
-
-    @EntityGraph(attributePaths = "authorities")
-    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
-    Optional<User> findOneWithAuthoritiesByLogin(String login);
-
-    @EntityGraph(attributePaths = "authorities")
-    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
-    Optional<User> findOneWithAuthoritiesByEmail(String email);
+//    @EntityGraph(attributePaths = "authorities")
+//    Optional<User> findOneWithAuthoritiesById(Long id);
+//
+//    @EntityGraph(attributePaths = "authorities")
+//    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
+//    Optional<User> findOneWithAuthoritiesByLogin(String login);
+//
+//    @EntityGraph(attributePaths = "authorities")
+//    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
+//    Optional<User> findOneWithAuthoritiesByEmail(String email);
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
+
+    @EntityGraph(attributePaths = "departments")
+    Optional<User> findOneWithJhiDepartmentsById(Long id);
+
+
+    @EntityGraph(attributePaths = "departments")
+    Optional<User> findOneWithJhiDepartmentsByLogin(String login);
+
+    @EntityGraph(attributePaths = "departments")
+    Optional<User> findOneWithJhiDepartmentsByEmail(String email);
 }

@@ -1,0 +1,26 @@
+
+{
+    "departmentSecurityApp": {
+        "jhiAuthPermRes" : {
+            "home": {
+                "title": "Jhi Auth Perm Res",
+                "createLabel": "创建新 Jhi Auth Perm Res",
+                "createOrEditLabel": "创建或编辑 Jhi Auth Perm Res"
+            },
+            "created": "Jhi Auth Perm Res {{ param }} 创建成功",
+            "updated": "Jhi Auth Perm Res {{ param }} 更新成功",
+            "deleted": "Jhi Auth Perm Res {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Jhi Auth Perm Res {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Jhi Auth Perm Res"
+            },
+            "authorityName": "Authority Name",
+            "permissionName": "Permission Name",
+            "resourceName": "Resource Name",
+            "jhiPermission": "Jhi Permission",
+            "jhiResource": "Jhi Resource"
+        }
+    }
+}

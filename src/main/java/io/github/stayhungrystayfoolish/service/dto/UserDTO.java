@@ -3,6 +3,7 @@ package io.github.stayhungrystayfoolish.service.dto;
 import io.github.stayhungrystayfoolish.config.Constants;
 
 import io.github.stayhungrystayfoolish.domain.Authority;
+import io.github.stayhungrystayfoolish.domain.JhiDepartment;
 import io.github.stayhungrystayfoolish.domain.User;
 
 import javax.validation.constraints.Email;
@@ -51,7 +52,7 @@ public class UserDTO {
 
     private Instant lastModifiedDate;
 
-    private Set<String> authorities;
+    private Set<String> departments;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -70,8 +71,8 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.authorities = user.getAuthorities().stream()
-            .map(Authority::getName)
+        this.departments = user.getDepartments().stream()
+            .map(JhiDepartment::getDepartmentName)
             .collect(Collectors.toSet());
     }
 
@@ -171,12 +172,12 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Set<String> getAuthorities() {
-        return authorities;
+    public Set<String> getDepartments() {
+        return departments;
     }
 
-    public void setAuthorities(Set<String> authorities) {
-        this.authorities = authorities;
+    public void setDepartments(Set<String> departments) {
+        this.departments = departments;
     }
 
     @Override
@@ -193,7 +194,7 @@ public class UserDTO {
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
+            ", departments=" + departments +
             "}";
     }
 }

@@ -1,0 +1,23 @@
+
+{
+    "departmentSecurityApp": {
+        "jhiResource" : {
+            "home": {
+                "title": "Jhi Resources",
+                "createLabel": "创建新 Jhi Resource",
+                "createOrEditLabel": "创建或编辑 Jhi Resource"
+            },
+            "created": "Jhi Resource {{ param }} 创建成功",
+            "updated": "Jhi Resource {{ param }} 更新成功",
+            "deleted": "Jhi Resource {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Jhi Resource {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Jhi Resource"
+            },
+            "resourceName": "Resource Name",
+            "resources": "Resources"
+        }
+    }
+}

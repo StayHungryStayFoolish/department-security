@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity JhiDepartment.
+    -->
+    <changeSet id="20180825162148-1" author="jhipster">
+        <createTable tableName="jhi_department">
+            <column name="department_name" type="varchar(255)">
+                <constraints primaryKey="true" nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/department.csv"
+                  separator=";"
+                  tableName="jhi_department"/>
+
+        <createTable tableName="jhi_user_department">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dep_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_id, dep_name" tableName="jhi_user_department"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="jhi_user_department"
+                                 constraintName="fk_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+        <addForeignKeyConstraint baseColumnNames="dep_name"
+                                 baseTableName="jhi_user_department"
+                                 constraintName="fk_dep_name"
+                                 referencedColumnNames="department_name"
+                                 referencedTableName="jhi_department"/>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/users_departments.csv"
+                  separator=";"
+                  tableName="jhi_user_department"/>
+
+        <createTable tableName="jhi_department_authority">
+            <column name="department_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="department_name, authority_name" tableName="jhi_department_authority"/>
+
+        <addForeignKeyConstraint baseColumnNames="department_name"
+                                 baseTableName="jhi_department_authority"
+                                 constraintName="fk_department_name"
+                                 referencedColumnNames="department_name"
+                                 referencedTableName="jhi_department"/>
+        <addForeignKeyConstraint baseColumnNames="authority_name"
+                                 baseTableName="jhi_department_authority"
+                                 constraintName="fk_authority_name"
+                                 referencedColumnNames="name"
+                                 referencedTableName="jhi_authority"/>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/departments_authorities.csv"
+                  separator=";"
+                  tableName="jhi_department_authority"/>
+
+
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

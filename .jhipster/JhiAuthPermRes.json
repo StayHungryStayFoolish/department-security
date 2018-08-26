@@ -1,0 +1,41 @@
+{
+    "name": "JhiAuthPermRes",
+    "fields": [
+        {
+            "fieldName": "authorityName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "permissionName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "resourceName",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "jhiPermission",
+            "otherEntityName": "jhiPermission",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "jhiResource",
+            "otherEntityName": "jhiResource",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20180825162151",
+    "entityTableName": "jhi_auth_perm_res",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "mySuffix"
+}

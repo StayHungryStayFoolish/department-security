@@ -85,12 +85,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "jhi_user_authority",
+        name = "jhi_user_department",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
-
+        inverseJoinColumns = {@JoinColumn(name = "dep_name", referencedColumnName = "department_name")})
     @BatchSize(size = 20)
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<JhiDepartment> departments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -189,12 +188,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.langKey = langKey;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
+    public Set<JhiDepartment> getDepartments() {
+        return departments;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setDepartments(Set<JhiDepartment> departments) {
+        this.departments = departments;
     }
 
     @Override

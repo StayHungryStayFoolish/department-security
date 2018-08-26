@@ -1,0 +1,27 @@
+{
+    "name": "JhiPermission",
+    "fields": [
+        {
+            "fieldName": "permissionName",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "permission",
+            "otherEntityName": "jhiAuthPermRes",
+            "otherEntityRelationshipName": "jhiPermission"
+        }
+    ],
+    "changelogDate": "20180825162149",
+    "entityTableName": "jhi_permission",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "mySuffix"
+}

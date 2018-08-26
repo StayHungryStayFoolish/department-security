@@ -1,0 +1,27 @@
+{
+    "name": "JhiResource",
+    "fields": [
+        {
+            "fieldName": "resourceName",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "resources",
+            "otherEntityName": "jhiAuthPermRes",
+            "otherEntityRelationshipName": "jhiResource"
+        }
+    ],
+    "changelogDate": "20180825162150",
+    "entityTableName": "jhi_resource",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "mySuffix"
+}
