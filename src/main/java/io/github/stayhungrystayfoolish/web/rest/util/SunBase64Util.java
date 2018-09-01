@@ -47,14 +47,6 @@ public class SunBase64Util {
     private static String encodeByte(byte[] bytes){
         return new BASE64Encoder().encode(bytes);
     }
-
-    public static void main(String[] args) {
-        System.out.println(encode("admin"));
-        System.out.println(encode("admin.admin"));
-
-        System.out.println(decode("cTExMTExMTExMTExMTExMQ=="));
-        System.out.println(decode("cTExMTExMTExMTExMTExMQ==").length());
-    }
 }
 
 

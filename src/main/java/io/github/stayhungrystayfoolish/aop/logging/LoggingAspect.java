@@ -2,17 +2,18 @@ package io.github.stayhungrystayfoolish.aop.logging;
 
 import io.github.jhipster.config.JHipsterConstants;
 
+import io.github.stayhungrystayfoolish.service.dto.UserDTO;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.core.env.Environment;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Aspect for logging execution of service and repository Spring components.
@@ -80,6 +81,17 @@ public class LoggingAspect {
         if (log.isDebugEnabled()) {
             log.debug("Enter: {}.{}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+            log.debug("Get WebAuthenticationDetails .");
+            Object[] o = joinPoint.getArgs();
+            for (Object o1 : o) {
+                AuditEvent auditEvent = (AuditEvent) o1;
+                auditEvent.getTimestamp();
+                auditEvent.getType();
+                Map<String, Object> map = auditEvent.getData();
+                WebAuthenticationDetails details = (WebAuthenticationDetails) map.get("details");
+                log.debug("IP is -> {}", details.getRemoteAddress());
+                log.debug("Session Id , {} ", details.getSessionId());
+            }
         }
         try {
             Object result = joinPoint.proceed();
@@ -93,6 +105,20 @@ public class LoggingAspect {
                 joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
 
             throw e;
+        }
+    }
+
+    @Pointcut("execution(* io.github.stayhungrystayfoolish.web.rest..*.getAccount(..))")
+    private void logPointCut() {
+    }
+
+    @AfterReturning(pointcut = "logPointCut()", returning = "retVal") //3
+    public void logBookingStatus(UserDTO retVal) {  //4
+        if (null != retVal) {
+            System.out.println("=========="+retVal.toString());
+            System.out.println("get Account succeeded!");
+        } else {
+            System.out.println("get Account failed!");
         }
     }
 }
