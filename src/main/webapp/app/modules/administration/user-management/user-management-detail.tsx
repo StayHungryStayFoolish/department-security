@@ -82,8 +82,8 @@ export class UserManagementDetail extends React.Component<IUserManagementDetailP
             </dt>
             <dd>
               <ul className="list-unstyled">
-                {user.authorities
-                  ? user.authorities.map((authority, i) => (
+                {user.departments
+                  ? user.departments.map((authority, i) => (
                       <li key={`user-auth-${i}`}>
                         <Badge color="info">{authority}</Badge>
                       </li>

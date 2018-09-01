@@ -18,7 +18,7 @@ const initialState = {
   loading: false,
   errorMessage: null,
   users: [] as ReadonlyArray<IUser>,
-  authorities: [] as any[],
+  departments: [] as any[],
   user: defaultValue,
   updating: false,
   updateSuccess: false,
@@ -68,7 +68,7 @@ export default (state: UserManagementState = initialState, action): UserManageme
       return {
         ...state,
         loading: false,
-        authorities: action.payload.data
+        departments: action.payload.data
       };
     case SUCCESS(ACTION_TYPES.FETCH_USERS):
       return {

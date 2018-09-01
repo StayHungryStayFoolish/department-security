@@ -183,7 +183,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
                   <Label for="authorities">
                     <Translate contentKey="userManagement.profiles">Language Key</Translate>
                   </Label>
-                  <AvInput type="select" className="form-control" name="authorities" value={user.authorities} multiple>
+                  <AvInput type="select" className="form-control" name="authorities" value={user.departments} multiple>
                     {roles.map(role => (
                       <option value={role} key={role}>
                         {role}
@@ -213,7 +213,7 @@ export class UserManagementUpdate extends React.Component<IUserManagementUpdateP
 
 const mapStateToProps = (storeState: IRootState) => ({
   user: storeState.userManagement.user,
-  roles: storeState.userManagement.authorities,
+  roles: storeState.userManagement.departments,
   loading: storeState.userManagement.loading,
   updating: storeState.userManagement.updating
 });

@@ -18,6 +18,8 @@ export const PrivateRouteComponent = ({
   hasAnyAuthorities = [],
   ...rest
 }: IPrivateRouteProps) => {
+  console.log("99988999999")
+  console.log(isAuthorized)
   const checkAuthorities = props =>
     isAuthorized ? (
       <ErrorBoundary>
@@ -49,21 +51,31 @@ export const PrivateRouteComponent = ({
   return <Route {...rest} render={renderRedirect} />;
 };
 
-export const hasAnyAuthority = (authorities: string[], hasAnyAuthorities: string[]) => {
-  if (authorities && authorities.length !== 0) {
+export const hasAnyAuthority = (departments: string[], hasAnyAuthorities: string[]) => {
+  if (departments && departments.length !== 0) {
+    console.log('1');
     if (hasAnyAuthorities.length === 0) {
+      console.log('2');
       return true;
     }
-    return hasAnyAuthorities.some(auth => authorities.includes(auth));
+    console.log('3');
+    console.log(hasAnyAuthorities.some(auth => departments.includes(auth)));
+    return hasAnyAuthorities.some(auth => departments.includes(auth));
   }
+  console.log('4');
   return false;
 };
 
-const mapStateToProps = ({ authentication: { isAuthenticated, account } }: IRootState, { hasAnyAuthorities = [] }: IOwnProps) => ({
+const mapStateToProps = ({ authentication: { isAuthenticated, account } }: IRootState, { hasAnyAuthorities = [] }: IOwnProps) => {
+  console.log("9090")
+  console.log(account.departments)
+  console.log(hasAnyAuthorities)
+  console.log(hasAnyAuthority(account.departments, hasAnyAuthorities))
+  console.log("-------")
+  return ({
   isAuthenticated,
-  isAuthorized: hasAnyAuthority(account.authorities, hasAnyAuthorities)
-});
-
+  isAuthorized: hasAnyAuthority(account.departments, hasAnyAuthorities)
+})};
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 /**
