@@ -3,6 +3,8 @@ package io.github.stayhungrystayfoolish.aop.logging;
 import io.github.jhipster.config.JHipsterConstants;
 
 import io.github.stayhungrystayfoolish.service.dto.UserDTO;
+import io.github.stayhungrystayfoolish.web.rest.vm.LoginVM;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -84,13 +86,28 @@ public class LoggingAspect {
             log.debug("Get WebAuthenticationDetails .");
             Object[] o = joinPoint.getArgs();
             for (Object o1 : o) {
-                AuditEvent auditEvent = (AuditEvent) o1;
-                auditEvent.getTimestamp();
-                auditEvent.getType();
-                Map<String, Object> map = auditEvent.getData();
-                WebAuthenticationDetails details = (WebAuthenticationDetails) map.get("details");
-                log.debug("IP is -> {}", details.getRemoteAddress());
-                log.debug("Session Id , {} ", details.getSessionId());
+                if (o1.getClass().equals(AuditEvent.class)) {
+                    AuditEvent auditEvent = (AuditEvent) o1;
+                    auditEvent.getTimestamp();
+                    auditEvent.getType();
+                    Map<String, Object> map = auditEvent.getData();
+                    WebAuthenticationDetails details = (WebAuthenticationDetails) map.get("details");
+                    if (null != details) {
+                        if (StringUtils.isNoneBlank(details.getRemoteAddress())) {
+                            log.debug("IP is -> {}", details.getRemoteAddress());
+                        }
+                        if (StringUtils.isNoneBlank(details.getSessionId())) {
+                            log.debug("Session Id , {} ", details.getSessionId());
+                        }
+                    } else if (o1.getClass().equals(LoginVM.class)) {
+                        LoginVM loginVM = (LoginVM) o1;
+                        log.debug("LoginVM -> " + loginVM.toString());
+                    } else if (o1.getClass().equals(UserDTO.class)) {
+                        UserDTO userDTO = (UserDTO) o1;
+                        log.debug("UserDTO -> " + userDTO.toString());
+                    }
+                }
+                log.debug("==== {} ", o1.getClass());
             }
         }
         try {
