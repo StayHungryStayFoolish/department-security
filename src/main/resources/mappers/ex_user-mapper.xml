@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.stayhungrystayfoolish.dao.ExUserDao">
+    <!--<insert id="create" parameterType="ex_user" useGeneratedKeys="true" keyProperty="id">-->
+        <!--INSERT INTO cookie_test.ex_user(-->
+            <!--name-->
+        <!--) VALUES (-->
+            <!--#{name}-->
+        <!--);-->
+    <!--</insert>-->
+
+    <!--<delete id="remove">-->
+        <!--DELETE FROM cookie_test.ex_user-->
+        <!--WHERE ex_user.id = #{id}-->
+    <!--</delete>-->
+
+    <!--<update id="modify">-->
+        <!--UPDATE cookie_test.ex_user-->
+        <!--SET-->
+            <!--name = #{name}-->
+        <!--WHERE ex_user.id = #{id}-->
+    <!--</update>-->
+
+    <select id="queryAll" resultType="io.github.stayhungrystayfoolish.bean.ExUser">
+        SELECT *
+        FROM cookie_test.ex_user
+    </select>
+</mapper>
